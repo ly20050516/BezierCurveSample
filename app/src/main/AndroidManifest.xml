@@ -18,7 +18,8 @@
         </activity>
         <activity android:name=".QuadToActivity" />
         <activity android:name=".CubicToActivity" />
-        <activity android:name=".WaveViewActivity"></activity>
+        <activity android:name=".WaveViewActivity" />
+        <activity android:name=".QQDragClearActivity"></activity>
     </application>
 
 </manifest>
