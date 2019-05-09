@@ -17,7 +17,8 @@
             </intent-filter>
         </activity>
         <activity android:name=".QuadToActivity" />
-        <activity android:name=".CubicToActivity"></activity>
+        <activity android:name=".CubicToActivity" />
+        <activity android:name=".WaveViewActivity"></activity>
     </application>
 
 </manifest>
