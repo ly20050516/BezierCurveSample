@@ -93,7 +93,9 @@ public class QQDragClearView extends FrameLayout {
 
     private void calculateDrawPath() {
 
+        // 计算 2 点之间的距离
         float distance = (float) Math.sqrt(Math.pow((tipsViewMoveX - tipsViewX), 2) + Math.pow((tipsViewMoveY - tipsViewY), 2));
+        // 圆的半径随着距离越来越远变和越来越小
         radius = -distance / 15 + DEFAULT_RADIUS;
 
         if (radius <= 0) {
@@ -105,6 +107,12 @@ public class QQDragClearView extends FrameLayout {
             return;
         }
 
+        /**
+         * 计算偏移量 offsetX 以及 offsetY
+         *
+         * 直线的斜率 k = (y2 - y1) / (x2 - x1) = tan𝞪，所以这里 Math.atan(k) 就是计算出来的角度，再根据角度分别计算出 offsetX 与 offsetY。
+         *
+         */
         float offsetX = (float) (radius * Math.sin(Math.atan((tipsViewMoveY - tipsViewY) / (tipsViewMoveX - tipsViewX))));
         float offsetY = (float) (radius * Math.cos(Math.atan((tipsViewMoveY - tipsViewY) / (tipsViewMoveX - tipsViewX))));
 
@@ -120,11 +128,17 @@ public class QQDragClearView extends FrameLayout {
         float x4 = tipsViewX + offsetX;
         float y4 = tipsViewY - offsetY;
 
+        // 重置 path
         path.reset();
+        // 移到点 (x1,y1)
         path.moveTo(x1,y1);
+        // 以 (x1,y1) 为起点，(x2,y2) 为终点，控制点为两圆心的中心点，画一条二阶贝塞尔曲线
         path.quadTo(controllerX,controllerY,x2,y2);
+        // 画直线
         path.lineTo(x3,y3);
+        // 再对称画一条二阶贝塞尔曲线
         path.quadTo(controllerX,controllerY,x4,y4);
+        // 画直线，封闭区域
         path.lineTo(x1,y1);
     }
 

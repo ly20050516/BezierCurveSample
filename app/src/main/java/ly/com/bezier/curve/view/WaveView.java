@@ -87,20 +87,29 @@ public class WaveView extends View {
             return;
         }
 
+        // 重置 path
         path.reset();
+        // 将 path 移到起点 (0,h)
         path.moveTo(0,h);
+        // 绘制第 1 部分，终点为 (w / 2,h),控制点为 (w / 4,h + WAVE_AMPLITTUDE),得到一条下凹的曲线
         path.quadTo(w / 4,h + WAVE_AMPLITTUDE,w / 2,h);
+        // 第 2 部分再以 (w / 2,h) 为起点，以 (w,h) 为终点，以 (w * 3 / 4,h - WAVE_AMPLITTUDE) 为控制点，得到一条上凸的曲线
         path.quadTo(w * 3 / 4,h - WAVE_AMPLITTUDE,w,h);
+        // 第 3 部分和第 4 部分就是重复第 1 部分和第 2 部分。只是注意坐标的计算
         path.quadTo(w * 5 / 4,h + WAVE_AMPLITTUDE,w * 3 / 2,h);
         path.quadTo(w * 7 / 4,h - WAVE_AMPLITTUDE,w * 2,h);
+        // 然后将 path 封闭得到一填充区域
         path.lineTo(w * 2,getHeight());
         path.lineTo(0,getHeight());
         path.close();
 
+        // 下面的 offset 由属性动画来控制其值，变化范围为 (0,width)
         matrix.reset();
+        // 随着动画的不断更新来变换 path 的 offset，从而形成流动的动画
         matrix.postTranslate(-offset,0);
         path.transform(matrix);
 
+        // 最后绘制出需要的曲面，对，不是曲线了
         canvas.drawPath(path,paint);
     }
 }
